@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - saep3</title>
+    <link rel="stylesheet" href="estilo.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <header id="div-header">
+        <h1>Projetos</h1>
+        <div class="button-header">
+            <button id="btnCadastrarUsuario">Cadastrar Usuários</button>
+            <button id="btnCadastrarProjeto">Cadastrar Projetos</button>
+            <button id="btnGerenciar">Gerenciar Projetos</button>
+        </div>
+    </header>
+
+    <section id="conteudo">
+        <div id="pendente"></div>
+        <div id="emAndamento"></div>
+        <div id="finalizado"></div>
+    </section>
+
+    <section class="escurecer" id="formCadProjeto">
+        <div class="formulario">
+            <button id="btnFechar">x</button><br>
+            <h1>Cadastrar Projeto</h1>
+
+            Nome: <br>
+            <input type="text" id="caixa_nome">
+            <br><br>
+
+            Usuário <br>
+            <select id="caixa_usuario"></select>
+            <br><br>
+
+            Descrição: <br>
+            <input type="text" id="caixa_descricao">
+            <br><br>
+
+            Situação: <br>
+            <select id="caixa_situacao">
+                <option value="" disabled selected>Selecione</option>
+                <option value="Pendente"></option>
+                <option value="Em andamento"></option>
+                <option value="Finalizados"></option>
+            </select>
+            <br><br>
+
+            <button id="btnSalvar">Salvar</button>
+        </div>
+    </section>
+
+    <section class="escurecer" id="formEditarProjeto">
+        <div class="formulario">
+            <button id="btnFecharProj">x</button><br>
+            <h1>Editar Projeto</h1>
+
+            Nome: <br>
+            <input type="text" id="caixa_nome2">
+            <br><br>
+
+            Usuário <br>
+            <select id="caixa_usuario2"></select>
+            <br><br>
+
+            Descrição: <br>
+            <input type="text" id="caixa_descricao2">
+            <br><br>
+
+            Situação: <br>
+            <select id="caixa_situacao2">
+                <option value="" disabled selected>Selecione</option>
+                <option value="Pendente"></option>
+                <option value="Em andamento"></option>
+                <option value="Finalizados"></option>
+            </select>
+            <br><br>
+
+            <button id="btnSalvar2">Salvar</button>
+            <button id="btnDeletar">Deletar</button>
+        </div>
+    </section>
+
+    <script>
+        $(document).ready(function(){
+            $("#formEditarProjeto").hide();
+            
+            $(document).on("click", ".cartoes", function(){
+                $("#formEditarProjeto").show();
+
+                let nome = $(this).find(".nome_projeto").text();
+                $("#caixa_nome2").val(nome);
+
+                let usuario = $(this).find(".fk_id_usuario").text();
+                $("#caixa_usuario2").val(usuario);
+
+                let descricao = $(this).find(".descricao").text();
+                $("#caixa_descricao2").val(descricao);
+
+                let situacao = $(this).find(".situacao").text();
+                $("#caixa_situacao2").val(situacao);
+
+
+            })
+
+            $("#btnGerenciar").click(function(){
+                $("#pendente").html("Carregando...")
+                $("#pendente").load("consultar_pendentes.php")
+
+                $("#emAndamento").html("Carregando...")
+                $("#emAndamento").load("consultar_EmAndamento.php")
+                
+                $("#finalizado").html("Carregando...")
+                $("#finalizado").load("consultar_finalizados.php")
+            })
+            $("#formCadProjeto").hide();
+            $.get("consultar_usuarios.php", function(resposta){
+                $("#caixa_usuario").html(resposta);
+                $("#caixa_usuario2").html(resposta);
+            })
+        })
+    </script>
+</body>
+</html>
